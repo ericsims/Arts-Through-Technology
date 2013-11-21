@@ -1,0 +1,19 @@
+<html>
+<script type="text/javascript" src="/socket.io/socket.io.js"/>
+<script>
+	var socket = io.connect('http://localhost');
+	socket.on('news', function(data) {
+		console.log(data);
+		socket.emit('my other event', {
+			my : 'data'
+		});
+	});
+});
+</script>
+<body>
+AR.Drone Image Processing:<br/>
+<img src=im.mjpeg width=100% heigth=100%>
+<br/>
+<a href=im.mjpeg>im.mjepg</a>
+</body>
+</html>
