@@ -1,0 +1,26 @@
+# Debug mode
+debug: 0 # True/False
+
+# target0 color and whitebalance from static photo (lightsaber theater)
+target0:
+  color: [252,226,134]
+  whiteBalance: 45
+  threshold: 50 # +/- for target color
+  nIters: 10
+  minArea: 100
+  dissize: 150
+
+# OpenCV settings
+opencv:
+  lowThresh: 0
+  highThresh: 1
+  width: 640
+  height: 360
+  saveFiles: 0 # True/False
+  
+# B, G, R
+GREEN: [0,255,0]
+BLUE: [255,0,0]
+RED: [0,0,255]
+WHITE: [255,255,255]
+YELLOW: [0,255,255]
