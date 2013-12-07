@@ -1,37 +1,25 @@
 var cv = require('opencv');
 var PNG = require('png.js');
 var draw = require('./draw');
-var http = require('http');
-var server = require('./mjpeg-stream');
+//var http = require('http');
+//var server = require('./mjpeg-stream');
 
 var lower_threshold = [0, 0, 0];
 var upper_threshold = [0, 0, 0];
 
 var XYZ;
-exports.readImage = function readImage(data, settings, index, adjustWhiteBalance){
+exports.readImage = function readImage(data, settings, index){
 	var	target = settings['target'+index];
 	if(target){
-		if(adjustWhiteBalance) {
-			var reader = new PNG(data);
-			reader.parse(function(err, png){
-				if (err) throw err;
-				var whiteBalance = 0;	
-				calculateWhiteBalance(png, whiteBalance, settings, target);
-				cv.readImage(data, function(err, im){
-					XYZ = exports.cvProcess(err, im, settings, target);
-				});
-			});
-		} else {
-			lower_threshold = [target.color[0] - target.threshold,
-			                   target.color[1] - target.threshold,
-			                   target.color[2] - target.threshold];
-			upper_threshold = [target.color[0] + target.threshold,
-			                   target.color[1] + target.threshold,
-			                   target.color[2] + target.threshold];
-			cv.readImage(data, function(err, im){
-				XYZ = exports.cvProcess(err, im, settings, target);
-			});
-		}
+		lower_threshold = [target.color[0] - target.threshold,
+		                   target.color[1] - target.threshold,
+		                   target.color[2] - target.threshold];
+		upper_threshold = [target.color[0] + target.threshold,
+		                   target.color[1] + target.threshold,
+		                   target.color[2] + target.threshold];
+		cv.readImage(data, function(err, im){
+			XYZ = exports.cvProcess(err, im, settings, target);
+		});
 		return XYZ;
 	} else {
 		cv.readImage(data, function(err, im){
@@ -140,6 +128,7 @@ exports.cvProcess = function cvProcess(err, im_orig, settings, target) {
 				}
 				var distance = target.dissize / ( Math.sqrt(contours.area(largest_blob)) );
 			}
+
 		}
 		if(settings.debug){
 			if(largest_blob != -1) {
@@ -164,7 +153,7 @@ exports.cvProcess = function cvProcess(err, im_orig, settings, target) {
 				console.log('big.png saved');
 			}
 		}
-		server.update(big.toBuffer());
+		//server.update(big.toBuffer());
 
 		if(largest_blob != -1) {
 			return [center[0], center[1], distance];
@@ -172,7 +161,7 @@ exports.cvProcess = function cvProcess(err, im_orig, settings, target) {
 			return [-1, -1, -1];
 		}
 	} else {
-		server.update(big.toBuffer());
+		//server.update(big.toBuffer());
 		return [-1, -1, -1];
 	}
 };

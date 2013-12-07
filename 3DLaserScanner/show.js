@@ -1,5 +1,6 @@
 require('js-yaml');
 
+var ffmpeg = require('fluent-ffmpeg');
 
 var sys = require("sys");
 var exec = require('child_process').exec;
@@ -7,20 +8,19 @@ var exec = require('child_process').exec;
 var settings = require('./track/config/settings.yaml');
 var detection = require('./track/components/detection');
 
-var film = require('film');
 
-var camera = film(videoElement, canvasElement)
+var XYZ = detection.readImage("./frames/tn_0.36s.jpg", settings, 0, false);
+if(XYZ){
+	console.log(XYZ);
+}
 
-camera.snapshot();
-
-camera.on('snapshot', function(data){
-	console.log(data);
-});
-
-imageStream.on('data', function(data){
-	//var XYZ = detection.readImage(data, settings, target, true);
-	//if(XYZ){
-	//	console.log(XYZ);
-	//}
-	console.log(data);
-});
+/*
+var proc = new ffmpeg({ source: './out.avi' })
+.withSize('640x360')	
+.takeScreenshots(5, './frames', function(err, filenames) {
+	if(err){
+		throw err;
+	}
+	console.log(filenames);
+	console.log('screenshots were saved');
+});*/
