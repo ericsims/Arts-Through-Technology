@@ -10,13 +10,13 @@ exports.drawBoundingRect = function(im, boundingRect, color) {
 	var firstCorner =  [boundingRect.x, boundingRect.y];
 	var secondCorner = [boundingRect.x + boundingRect.width, boundingRect.y];
 	var thirdCorner =  [boundingRect.x, boundingRect.y + boundingRect.height];
-	var fourthCorner = [boundingRect.x + boundingRect.width, boundingRect.y + boundingRect.height]
+	var fourthCorner = [boundingRect.x + boundingRect.width, boundingRect.y + boundingRect.height];
 
 	im.line(firstCorner, secondCorner, color);
 	im.line(secondCorner, fourthCorner, color);
 	im.line(fourthCorner, thirdCorner, color);
 	im.line(thirdCorner, firstCorner, color);
-}
+};
 
 /**
  * Draw a ellipse on the center of a contour
@@ -35,4 +35,4 @@ exports.drawCenter = function(im, boundingRect, color, getCenter) {
 	);
 
 	im.ellipse(center[0], center[1], 3, 3, color);
-}
+};
